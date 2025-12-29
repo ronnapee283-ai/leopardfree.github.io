@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>PANEL X DATA</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#0a3cff,#c4002b);
+  color:#fff;
+}
+
+/* กล่อง */
+.card{
+  width:300px;
+  background:rgba(0,0,0,0.45);
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 0 25px rgba(0,0,0,0.7);
+  text-align:center;
+}
+
+.hidden{ display:none; }
+
+input{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  margin:10px 0;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(90deg,#007bff,#ff2a2a);
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#msg{
+  color:#ff5a5a;
+  margin-top:8px;
+}
+
+/* เมนู */
+.toggle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(255,255,255,0.12);
+  padding:10px;
+  border-radius:10px;
+  margin:8px 0;
+}
+
+.toggle input{
+  transform:scale(1.2);
+}
+
+/* แจ้งเตือน */
+#toast{
+  position:fixed;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#000;
+  padding:10px 20px;
+  border-radius:20px;
+  opacity:0;
+  transition:0.3s;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="login" class="card">
+  <h2>PANEL X DATA</h2>
+  <input type="password" id="key" placeholder="ใส่รหัสก่อนเข้า">
+  <button onclick="checkKey()">เข้าใช้งาน</button>
+  <div id="msg"></div>
+</div>
+
+<!-- PANEL -->
+<div id="panel" class="card hidden">
+  <h2>PANEL X DATA</h2>
+
+  <label class="toggle">
+    <span>จอไว ช่วยลาก</span>
+    <input type="checkbox" onchange="notify(this,'จอไว ช่วยลาก')">
+  </label>
+
+  <label class="toggle">
+    <span>ล็อคอก ลากง่าย</span>
+    <input type="checkbox" onchange="notify(this,'ล็อคอก ลากง่าย')">
+  </label>
+
+  <label class="toggle">
+    <span>กันดำกันแบน</span>
+    <input type="checkbox" onchange="notify(this,'กันดำกันแบน')">
+  </label>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const PASSWORD = "CHISMAS2025";
+
+function checkKey(){
+  const key = document.getElementById("key").value;
+  const msg = document.getElementById("msg");
+
+  if(key === PASSWORD){
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("panel").classList.remove("hidden");
+    showToast("✅ เข้าพาแนลสำเร็จ");
+  }else{
+    msg.innerText = "❌ รหัสไม่ถูกต้อง";
+  }
+}
+
+function notify(cb,name){
+  if(cb.checked){
+    showToast("✅ เปิดใช้งาน " + name);
+  }else{
+    showToast("❌ ปิดใช้งาน " + name);
+  }
+}
+
+function showToast(text){
+  const toast = document.getElementById("toast");
+  toast.innerText = text;
+  toast.style.opacity = "1";
+  setTimeout(()=>toast.style.opacity="0",1500);
+}
+</script>
+
+</body>
+</html>
